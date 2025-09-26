@@ -1,8 +1,8 @@
 '''
 Author: Jeret Roslin
-Sources: Julian Toub, Mr. Campbell, ASCII Keys Table
+Sources:, Mr. Campbell, ASCII Keys Table
 Description: Set of functions that do different things with a certain name
-Date: 9/25/2025
+Date: 9/30/2025
 Bugs: None
 '''
 
@@ -176,7 +176,7 @@ def title_check(name):
     returns:
          (bool) if there is a hyphen in name or not 
     '''
-    titles = ['Dr.', 'Sir.', 'Mr.', 'Esq','Ms.'  'md']
+    titles = ['Dr.', 'Sir.', 'Mr.', 'Esq','Ms.'  'M.d']
     first_space = first_name(name)
     if first_space in titles:
         return True
@@ -315,7 +315,14 @@ def main():
         elif menu == '6':
             palindrome(name)
         elif menu == '7':
-            print (first_name(name))
+            if title_check(name) == False:
+                print(first_name(name))
+            else:
+             no_title = name.replace(first_name(name), '')
+             no_title_and_space = no_title.replace(' ', '', 1)
+             print (first_name(no_title_and_space))
+             
+
         elif menu == '8':
             print (last_name(name))
         elif menu == '9':
@@ -332,7 +339,13 @@ def main():
             initials_lowered = get_initials(name)
             print (uppercase(initials_lowered))
         elif menu == '15':
-            print (middle_name(name))
+             if title_check(name) == False:
+                print(middle_name(name))
+             else:
+              no_title = name.replace(first_name(name), '')
+              no_title_and_space = no_title.replace(' ', '', 1)
+              print (middle_name(no_title_and_space))
+            
         elif menu == '16':
             sort_name_alphabetically(name)
         elif menu == '17':
