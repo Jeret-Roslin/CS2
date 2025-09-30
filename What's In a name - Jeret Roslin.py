@@ -3,7 +3,12 @@ Author: Jeret Roslin
 Sources:, Mr. Campbell, ASCII Keys Table
 Description: Set of functions that do different things with a certain name
 Date: 9/30/2025
-Bugs: None
+Bugs: 
+If name has number conosants doesn't work
+If space first character in name, special title, first name, and middle name don't work properly
+If special title capitilized then it doesn't work
+Print cipher doesn't work
+Detects special title in intials
 '''
 
 
