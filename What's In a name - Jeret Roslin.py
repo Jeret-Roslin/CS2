@@ -1,4 +1,5 @@
-'''
+
+   '''
 Author: Jeret Roslin
 Sources:, Mr. Campbell, ASCII Keys Table
 Description: Set of functions that do different things with a certain name
@@ -9,6 +10,7 @@ If space first character in name, special title, first name, and middle name don
 If special title capitilized then it doesn't work
 Print cipher doesn't work
 Detects special title in intials
+Log: 1.0 J.R
 '''
 
 
@@ -283,6 +285,7 @@ def main():
         print(f' Welcome {name}')
         # displays user's name
         menu=input("""Which function would you like to see?
+    MENU:
     1 count the amount of vowels in your name
     2 count the amount of consonants in your name
     3 Check if there is a hyphen in your name   
