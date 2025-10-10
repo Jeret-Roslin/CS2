@@ -1,0 +1,70 @@
+# change less than to less than and equal to 
+# create singular input
+    
+def get_size(l,w,h):
+        package_calc = l + (w*2) + (h*2)
+        p_type = ''
+        if l > 3.5 and l < 4.25 and w > .007 and w < .016 and h > 3.5 and h < 6:
+            p_type = 'Regular post card'
+            return p_type
+        elif l > 4.25 and l < 6 and w > .007 and w < .015 and h > 6 and h < 11.5:
+             p_type = 'Large post card'
+             return p_type
+        elif l > 4.25 and l < 6 and w > .016 and w < .025 and h > 5 and h < 11.5:
+             p_type = 'Envelope'
+             return p_type
+        elif l > 6.125 and l < 24 and w > .25 and w < .5 and h > 11 and h < 18:
+             p_type = 'Large Envelope'
+             return p_type
+        elif package_calc < 84: 
+             p_type = 'Package'
+             return p_type
+        elif package_calc > 84 and package_calc < 130:
+             p_type = 'Large Package'
+             return p_type
+        else:
+            print ("This package type is unmailable ")
+        
+def get_zip(your_zip, their_zip):
+    zone = ''
+    distance = abs(their_zip - your_zip)
+    if distance == 0:
+        zone = '0'
+        return zone
+
+    elif distance >= 1 and distance <= 6999:
+        zone = '1'
+        return zone 
+    elif distance >= 7000 and distance <= 19999:
+        zone = '2'
+        return zone
+    elif distance >= 20000 and distance <= 35999:
+        zone = '3'
+        return zone 
+    elif distance >= 36000 and distance <= 62999:
+        zone = '4'
+        return zone 
+    elif distance >= 63000 and distance <= 84999:
+        zone = '5'
+        return zone 
+    elif distance >= 85000 and distance <= 99999:
+         zone = '6'
+         return zone 
+         
+         
+     
+
+
+
+def main():
+    print ('Hello, Welcome to the Digital Post Office. Please enter the following data below')
+    input_data = input ('put commas between each piece of data. What is the length, (in) What is the height, (in) what is the width, (in) What is your zipcode, What is their zipcode  ')
+    input_split = input_data.split (',')
+    l = float(input_split [0])
+    h = float(input_split [1])
+    w = float(input_split [2])
+    your_zip = float(input_split [3])
+    their_zip = float(input_split [4])
+    print (get_size(l,w,h))
+    print (get_zip(your_zip, their_zip))
+main()
