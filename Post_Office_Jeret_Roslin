@@ -1,6 +1,6 @@
 '''
 Author: Jeret Roslin
-Sources: Mr. Campbell, Assignment Sheet (Sample Inputs and Outputs)
+Sources: Assignment Sheet (Sample Inputs and Outputs)
 Description: Set of functions that determine package type and zone and generate total cost
 Date: 10/31/25
 Bugs: Only works with commas and 5 inputs, leading zero
@@ -17,7 +17,7 @@ def get_size(l,w,h): #length, width, height
      returns:
           package type
      '''
-     package_calculator = l + (w*2) + (h*2)
+     package_size = l + (w*2) + (h*2)
      p_type = ''
      #if data fits between certain category, if not jump to next category...
      if l > 3.5 and l < 4.25 and w > .007 and w < .016 and h > 3.5 and h < 6:
@@ -32,14 +32,14 @@ def get_size(l,w,h): #length, width, height
      elif l > 6.125 and l < 24 and w > .25 and w < .5 and h > 11 and h < 18:
           p_type = 'Large Envelope'
           return p_type
-     elif package_calculator < 84: 
+     elif package_size < 84: 
           p_type = 'Package'
           return p_type
-     elif package_calculator > 84 and package_calculator < 130:
+     elif package_size > 84 and package_size < 130:
           p_type = 'Large Package'
           return p_type
      else:
-          print ("This package type is unmailable ")
+          print ("UNMAILABLE")
         
 def get_zip(distance): #distance means zone to zone distance 
     '''
@@ -86,16 +86,16 @@ def get_cost(l, w, h, your_zip, their_zip): # package cost + zone cost
     elif get_size(l,w,h) == 'large post card':
          zone_cost = .03 
          p_type_cost = .37
-    elif get_size(l,w,h) == 'Envelope':
+    elif get_size(l,w,h) == 'envelope':
          zone_cost = .04
          p_type_cost = .37
-    elif get_size (l,w,h) == 'Large Envelope':
+    elif get_size (l,w,h) == 'large envelope':
          zone_cost = .05
          p_type_cost = .60
-    elif get_size (l,w,h) == 'Package':
+    elif get_size (l,w,h) == 'package':
          zone_cost = .25
          p_type_cost = 2.95
-    elif get_size (l,w,h) == 'Large Package':
+    elif get_size (l,w,h) == 'large package':
          zone_cost = .35
          p_type_cost = 3.95
     total_cost = p_type_cost + zone_cost * abs(get_zip(your_zip)- get_zip(their_zip))
@@ -107,15 +107,15 @@ def main():
      counter = 0
      while counter < 5:
           #this is so all items can be tested
-          print ('Hello, Welcome to the Digital Post Office. Please enter the following data below')
+          print (' Please enter the following data below:')
           input_data = input ('Please put COMMAS between each piece of data.'
-          'What is the length, (in) What is the height, (in) what is the width, (in) W-hat is your zipcode, What is their zipcode  ') #user input
+          'What is the length, (in) What is the height, (in) what is the width, (in) What is your zipcode, What is their zipcode  ') #user input
           input_split = input_data.split (',') #user data inputted as an array using split function ex. 5,3,5
           l = float(input_split [0]) #length information
           h = float(input_split [1]) # height information
           w = float(input_split [2]) # width information
           your_zip = float(input_split [3]) # your zipcode information
           their_zip = float(input_split [4]) # their zipcode information
-          print(f'Your total cost is ${(get_cost(l,w,h, your_zip, their_zip))}') #total cost printed
+          print(f'{get_cost (l,w,h, your_zip, their_zip):.2f}'.lstrip("0")) #total cost printed
           counter = counter+1  #counter goes up until it hits 5
 main()
