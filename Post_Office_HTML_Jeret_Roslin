@@ -8,7 +8,7 @@
     //Author: Jeret Roslin
     //Source: Mr. Campbell, Julian Toub, W3 Schools
     //Description: Runs an HTML website and calculates cost
-    //Bugs: leading zero
+    //Bugs: None
     //Log: J.R 1.0
 
 function package_size(l, w, h)  
@@ -18,11 +18,7 @@ function package_size(l, w, h)
     // Args: (l) length  (w) width  (h) height
     // Returns: Certain package type, envelope, package etc...
     
-    console.log(l)
-    console.log(w)
-    console.log(h)
     let package_calc = (l + w + w + h + h);
-    console.log(package_calc)
      p_type = '';
      //if data fits between certain category, if not jump to next category...
      
@@ -180,7 +176,7 @@ function main() { // beginning of main function
       if (cost(num1, num3, num2, num4, num5) != "UNMAILABLE")
       {
         price = cost(num1, num3, num2, num4, num5)
-        let twonumbers = price.toPrecision(2); 
+        let twonumbers = price.toFixed(2); 
         no_leading_zer0 = twonumbers.replace(/^0+/,''); // gets rid of digit 0
         document.getElementById("result").innerText = "Cost: $" + no_leading_zer0 // prints cost with no leading zero
       }
@@ -190,13 +186,13 @@ function main() { // beginning of main function
       {
         
         document.getElementById("result").innerText = "UNMAILABLE";
-      console.log(cost (num1, num3, num2, num4, num5));
+
       }
 } // end of main function
   </script>
 </head>
 <body>
-  <h2 style="color: black; text-align: center; font-size: 50px; font-family: Arial, Helvetica, sans-serif;">Welcome to the Digital Post Office!</h2>
+  <h2 style="color: black; text-align: center; font-size: 50px; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Welcome to the Digital Post Office!</h2>
 
   <!-- Input fields -->
    <div style="text-align: center;">
@@ -230,7 +226,7 @@ function main() { // beginning of main function
   height: 100vh; /* Ensures the body takes up the full t height */
   margin: 0; /* Removes default body margin */
   padding: 0; /* Removes default body padding */
-  background-color: rgb(173, 217, 230);  /* Color for website background */
+  background-color: rgb(173, 174, 230);  /* Color for website background */
 }
 
 h1 {
