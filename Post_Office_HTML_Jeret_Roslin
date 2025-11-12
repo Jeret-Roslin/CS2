@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Post Office</title>
+  <script>
+    //Author: Jeret Roslin
+    //Source: Mr. Campbell, Julian Toub, W3 Schools
+    //Description: Runs an HTML website and calculates cost
+    //Bugs: leading zero
+    //Log: J.R 1.0
+
+function package_size(l, w, h)  
+  { // this function begins package function 
+
+    //Description: Function that determines package size 
+    // Args: (l) length  (w) width  (h) height
+    // Returns: Certain package type, envelope, package etc...
+    
+    console.log(l)
+    console.log(w)
+    console.log(h)
+    let package_calc = (l + w + w + h + h);
+    console.log(package_calc)
+     p_type = '';
+     //if data fits between certain category, if not jump to next category...
+     
+     
+     if ((l > 3.5) && (l < 4.25) && (w > .007) && (w < .016) && (h > 3.5) && (h < 6)) // and replaced with (&&) data pieces put between parentheses
+      { // Curly brackets are used for returning data
+          p_type = 'regular post card';
+          return p_type;
+      }
+     else if ((l > 4.25) && (l < 6) && (w > .007) && (w < .015) && (h > 6) && (h < 11.5)) // use else if instead of elif
+      {
+          p_type = 'large post card'
+          return p_type
+      }
+     else if  ((l > 3.5) && (l < 6.125) && (w > .016) && (w < .25) && (h > 5) && (h < 11.5))
+     {
+          p_type = 'envelope';
+          return p_type;
+     }
+     else if ((l > 6.125) && (l < 24) && (w > .25) && (w < .5) && (h > 11) && (h < 18))
+        {  p_type = 'large envelope';
+          return p_type;
+        }
+     else if (package_calc < 84)
+     {
+          p_type = 'package';
+          return p_type;
+     }
+     else if ((package_calc > 84) && (package_calc < 130))
+    { 
+          p_type = 'large package';
+          return p_type;
+    }
+     else
+     {
+      return ('UNMAILABLE');
+     }
+        
+
+    } // this brace ends package function 
+
+
+
+
+
+    function zip (distance) 
+  { // this brace starts zip function
+    
+    //Description: Calculates a distance cost between zones
+    // Args: (distance) 
+    //Returns: zone cost
+     zone = 0
+    //same style as package type function, associate zone with matching data type
+    if ((distance >= 1) && (distance <= 6999))
+    {
+        zone = 1;
+        return zone;
+    }
+        
+    else if ((distance >= 7000) && (distance <= 19999))
+    {
+        zone = 2;
+        return zone;
+    }
+    else if ((distance >= 20000 && distance <= 35999))
+    {
+        zone = 3;
+        return zone;
+    }
+    else if ((distance >= 36000 && distance <= 62999))
+    {
+        zone = 4;
+        return zone;
+    }
+    else if ((distance >= 63000 && distance <= 84999))
+    {
+        zone = 5;
+        return zone;
+    }
+    else if ((distance >= 85000 && distance <= 99999))
+    {
+         zone = 6;
+         return zone; 
+    }
+  } // this braces ends zip  function
+         
+
+function cost(l, w, h, your_zip, their_zip)
+    { // package cost + zone cost, starts cost function 
+    
+    // Function that determines cost based off user's input and data ranges
+    // Args:
+          //l(float), h(float), w(float), your_zip(int), their_zip(int)
+     //returns:
+         // cost of zone and package type 
+    {
+    zone_cost = 0;
+    p_type_cost = 0;
+    }
+    if (package_size(l,w,h) == 'regular post card')
+    {
+         zone_cost = .03;
+         p_type_cost = .20;
+    }
+    else if (package_size(l,w,h) == 'large post card')
+    {
+         zone_cost = .03;
+         p_type_cost = .37;
+    }
+    else if (package_size(l,w,h) == 'envelope')
+      { zone_cost = .04;
+         p_type_cost = .37;
+      }
+    else if (package_size (l,w,h) == 'large envelope')
+       {  zone_cost = .05;
+         p_type_cost = .60;
+       }
+    else if (package_size (l,w,h) == 'package')
+      { zone_cost = .25;
+         p_type_cost = 2.95;
+      }
+    else if (package_size (l,w,h) == 'large package')
+       {  zone_cost = .35;
+         p_type_cost = 3.95;
+       }
+    else 
+       {
+        return ('UNMAILABLE');
+       }
+
+    const total_cost = (p_type_cost + zone_cost * Math.abs(zip(your_zip)- zip(their_zip))); //abs makes sure of absolute value
+    return total_cost; 
+  } // this brace ends cost function
+  
+
+     
+    
+    
+function main() { // beginning of main function
+      // Input Values
+      let num1 = parseFloat(document.getElementById("length").value); //  parse means changing data types
+      let num2 = parseFloat(document.getElementById("height").value);
+      let num3 = parseFloat(document.getElementById('width').value);
+      let num4 = parseInt(document.getElementById('your zipcode').value);  
+      let num5 = parseInt(document.getElementById('their zipcode').value);
+      // Convert the values to numbers (since inputs are strings by default)
+  
+      
+
+
+      // Display the result inside the <p> tag
+
+      
+          // DO THIS AFTER COST
+      if (cost(num1, num3, num2, num4, num5) != "UNMAILABLE")
+      {
+        price = cost(num1, num3, num2, num4, num5)
+        let twonumbers = price.toPrecision(2); 
+        no_leading_zer0 = twonumbers.replace(/^0+/,''); // gets rid of digit 0
+        document.getElementById("result").innerText = "Cost: $" + no_leading_zer0 // prints cost with no leading zero
+      }
+      
+      
+      else
+      {
+        
+        document.getElementById("result").innerText = "UNMAILABLE";
+      console.log(cost (num1, num3, num2, num4, num5));
+      }
+} // end of main function
+  </script>
+</head>
+<body>
+  <h2 style="color: black; text-align: center; font-size: 50px; font-family: Arial, Helvetica, sans-serif;">Welcome to the Digital Post Office!</h2>
+
+  <!-- Input fields -->
+   <div style="text-align: center;">
+  <input style="text-align: center;font-family:Verdana;"  type="number" id="length" placeholder="Enter length"><br>
+  <input style="text-align: center;font-family:Verdana;" type="number" id="height" placeholder="Enter height"><br>
+  <input style="text-align: center;font-family:Verdana;" type="number" id="width" placeholder="Enter width"><br>
+  <input style="text-align: center;font-family:Verdana;" type="number" id="your zipcode" placeholder="Enter your zipcode"><br>
+  <input style="text-align: center;font-family:Verdana;" type="number" id="their zipcode" placeholder="Enter their zipcode"><br>
+    <div>
+
+  
+
+
+
+  <!-- Button that calls the function -->
+  <button onclick="main()">Generate Cost</button> 
+
+
+  <!-- Area to display the result -->
+  <p id="result"></p>
+
+  <img src="Post Office 4.png" alt="Post Office Logo" width = '250' height = '187.40234375'  
+</body>
+<style> /* opens up the style body */
+  body {
+     
+      background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed; /*  keeps the background fixed during scrolling */
+  height: 100vh; /* Ensures the body takes up the full t height */
+  margin: 0; /* Removes default body margin */
+  padding: 0; /* Removes default body padding */
+  background-color: rgb(173, 217, 230);  /* Color for website background */
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+p {
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* design for printed cost */
+  font-size: 20px; 
+}
+
+input{  /*design for input boxes */
+margin: 7px;  
+padding: 20px;
+width: 400px;
+outline: auto;
+
+
+}
+</style>  <!--Ends style body -->
+</html> 
