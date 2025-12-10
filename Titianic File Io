@@ -1,0 +1,179 @@
+def display_data(file):
+    try:
+        with open('titanic.csv', 'r') as file:
+        #header = file.readline().strip().split(',')  # Read the header row
+        #name_index = header.index('Name')  # Find the index of 'Name' column
+       
+            counter = 0
+            for line in file:
+                if counter == 11:
+                    break
+                else:
+                    row = line.strip().split(',') # refers to a specific line of text
+                    print(row)
+                    counter += 1
+            #print(row[name_index])
+    except FileNotFoundError:
+        print("Error: 'titanic.csv' file not found.")
+
+def overall_survival_rate(file):
+            file.seek(1)  # changes file pointer location to the top
+            counter = 0
+            survival_counter = 0
+            
+            for line in file:
+                counter = counter + 1
+                row = line.strip().split(',')
+                counter += 1
+                if row[1] == '1':
+                    survival_counter += 1
+            num_of_passengers = counter -1
+            survival_rate = survival_counter/num_of_passengers
+
+
+            with open('survival_calculations.csv', 'w') as survival_file:
+                output = (survival_rate * 100)
+                survival_file.write("Survived:") # prints 'Survived' as specific column
+                survival_file.write(f'{output:.2f}%') # prints data to the nearest hundreth using .2f
+
+                        
+            
+def gender_surv_rate(file):
+     file.seek(1)  
+     male = 0
+     female = 0
+     males_survived = 0
+     females_survived = 0
+     with open('gender_survival.csv', 'w') as gender_file:     
+
+
+      for line in file:
+          row = line.strip().split(',')
+          gender = row [5]
+          if gender == 'male':
+               male = male +1
+               if row [1] == '1': 
+                males_survived = males_survived +1
+          elif gender == 'female':
+               female = female +1
+               if row [1] == '1':
+                females_survived = females_survived +1    
+      
+      male_percentage = ((males_survived/male)*100)
+      female_percentage = ((females_survived/female)* 100)
+      gender_file.write("% of Men Survived:, % of Women Survived," ) # writes these as columns
+      gender_file.write(f'{male_percentage:.2f}%, {female_percentage:.2f}%') # prints data rounding to nearest hundreth using .2f
+
+def average_age(file):  
+    file.seek(1)  
+    counter = 0
+    total_age = 0
+    with open ('average_age.csv', 'w') as age_file:
+        for line in file:
+            row = line.strip().split(',')
+            try:
+                counter = counter +1
+                Age = int(row [6])
+                total_age = total_age + Age
+            
+            except ValueError:
+                pass
+        Age_average = total_age/counter
+
+        age_file.write("Average Age,")
+        age_file.write(f'{Age_average:.2f}')
+
+
+def youngest_age(file):
+    file.seek(1)
+    youngest_age = 100
+    with open ('youngest_passenger.csv', 'w') as yp_file:
+        for line in file:
+            row = line.strip().split(',')
+            try:
+                Age = int(row [6])
+                if Age < youngest_age:
+                    youngest_age = Age
+            except ValueError:
+                pass
+            
+        yp_file.write('Youngest Age:,')
+        yp_file.write(f'{youngest_age}')
+    
+        
+def oldest_age(file):
+    file.seek(1)
+    oldest_age = 0
+    with open ('oldest_age.csv', 'w') as oa_file:
+        for line in file:
+            row = line.strip().split(',')
+            try:
+                Age = int(row[6])
+                if Age > oldest_age:
+                    oldest_age = Age
+            except ValueError:
+                pass
+        oa_file.write('Oldest Age:,')
+        oa_file.write(f'{oldest_age}')
+        
+def Surv_vs_non_surv_age(file):
+    file.seek(1)
+    survivors = 0
+    non_survivors = 0
+    survivors_age = 0
+    non_survivors_age = 0
+    with open('surv_age_vs_surv_age.csv', 'w' ) as surv_age_file:
+        for line in file:
+            row = line.strip().split(',')
+
+            age = row[6]
+            try:
+                survived = (row[1])
+                if survived == '1':
+                    survivors += 1
+                    survivors_age += int(row[6])
+                elif survived == '0':
+                    non_survivors +=1
+                    non_survivors_age += int(row[6])
+
+
+            except Exception as e:
+                      pass
+            
+        survivors_age = (survivors_age/survivors)
+        non_survivors_age = (non_survivors_age/non_survivors)
+        surv_age_file.write("Survivors Age:, % of Non Survivors Age:," )
+        surv_age_file.write(f"{survivors_age:.2f} ")
+        surv_age_file.write(f"{non_survivors_age:.2f}")
+
+
+                
+def class_surv(file):
+    file.seek(1)
+    class_1_surv = 0
+    class_2_surv = 0
+    class_3_surv = 0
+    class_1 = 0
+    class_2 = 0
+    class_3 = 0
+    with open('class_surv.csv', 'w') as class_surv_file:
+        try:
+            for line in file:
+                row = line.strip().split(',')
+                pclass = row([2])
+                survived = (row[1])
+                if pclass == '1':
+                    class_1 += 1
+                    if survived == "1":
+                        class_1_surv += 1
+                elif pclass == '2':
+                    class_2 += 1
+                    if survived == "1":
+                        class_2_surv += 1
+                elif pclass == '3':
+                    class_3 += 1
+                    if survived == "1":
+                        class_3_surv += 1
+        except Exception as e:
+            print(e)
+            
