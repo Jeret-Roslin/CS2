@@ -1,4 +1,11 @@
 def display_data(file):
+    '''
+   Description: Displays data from CSV 
+   Args:
+        (file) - CSV File
+    Returns:
+            first 10 rows from CSV file 
+    '''
     try:
         with open('titanic.csv', 'r') as file:
         #header = file.readline().strip().split(',')  # Read the header row
@@ -17,6 +24,13 @@ def display_data(file):
         print("Error: 'titanic.csv' file not found.")
 
 def overall_survival_rate(file):
+            '''
+       Description:  Percantage of passengers survived from Titanic utilizing row 1 of CSV displays in excel 
+        Args:
+            (file) - CSV file
+        returns:
+                (float) survival percentage on titanic 
+            '''
             file.seek(1)  # changes file pointer location to the top
             counter = 0
             survival_counter = 0
@@ -38,7 +52,14 @@ def overall_survival_rate(file):
 
                         
             
-def gender_surv_rate(file):
+def gender_surv_rate(file): 
+     '''
+     Description: Calculates survival rate for gender on the titanic utilizing rows 1 and 5 displays in excel
+     Args:
+            (file) - CSV File 
+    Returns:
+            (float) percentage of male survivors vs female survivors 
+     '''
      file.seek(1)  
      male = 0
      female = 0
@@ -65,6 +86,15 @@ def gender_surv_rate(file):
       gender_file.write(f'{male_percentage:.2f}%, {female_percentage:.2f}%') # prints data rounding to nearest hundreth using .2f
 
 def average_age(file):  
+    '''
+    Description: 
+                determines the average age of passengers on titanic using row 6
+    Args:
+            (file) CSV File
+    Returns: 
+            (int) average age of passengers on excel 
+
+    '''
     file.seek(1)  
     counter = 0
     total_age = 0
@@ -85,6 +115,14 @@ def average_age(file):
 
 
 def youngest_age(file):
+    '''
+Description:
+            displays youngest passenger on titanic using row 6
+Args:
+        (file) CSV File 
+Returns:
+        (int) age of youngest passenger 
+    '''
     file.seek(1)
     youngest_age = 100
     with open ('youngest_passenger.csv', 'w') as yp_file:
@@ -102,6 +140,15 @@ def youngest_age(file):
     
         
 def oldest_age(file):
+    '''
+Description:
+            displays oldest passenger using row 6 of data 
+    
+Args: 
+        (file) - CSV File 
+Returns:
+        (int) - age of oldest passenger 
+    '''
     file.seek(1)
     oldest_age = 0
     with open ('oldest_age.csv', 'w') as oa_file:
@@ -117,16 +164,24 @@ def oldest_age(file):
         oa_file.write(f'{oldest_age}')
         
 def Surv_vs_non_surv_age(file):
+    '''
+Description:
+            Displays average of survivors vs non-survivors utilizing rows 1 and 6
+Args:
+        (file) CSV File
+Returns:
+        (int) the average age
+    '''
     file.seek(1)
     survivors = 0
     non_survivors = 0
     survivors_age = 0
     non_survivors_age = 0
-    with open('surv_age_vs_surv_age.csv', 'w' ) as surv_age_file:
+    with open('surv_age_vs_non_surv_age.csv', 'w' ) as surv_age_file:
         for line in file:
             row = line.strip().split(',')
 
-            age = row[6]
+            age = (row[6])
             try:
                 survived = (row[1])
                 if survived == '1':
@@ -142,13 +197,22 @@ def Surv_vs_non_surv_age(file):
             
         survivors_age = (survivors_age/survivors)
         non_survivors_age = (non_survivors_age/non_survivors)
-        surv_age_file.write("Survivors Age:, % of Non Survivors Age:," )
+        surv_age_file.write("Survivors Age:, Non Survivors Age:," )
         surv_age_file.write(f"{survivors_age:.2f} ")
         surv_age_file.write(f"{non_survivors_age:.2f}")
 
 
                 
 def class_surv(file):
+    '''
+Description:
+            Generates survival rate for each passenger class using rows 1 and 2
+Args:
+       (file) CSV File
+Returns:    
+         (float) Survival rate per each class 
+    '''
+
     file.seek(1)
     class_1_surv = 0
     class_2_surv = 0
@@ -157,11 +221,12 @@ def class_surv(file):
     class_2 = 0
     class_3 = 0
     with open('class_surv.csv', 'w') as class_surv_file:
-        try:
-            for line in file:
+        
+        for line in file:
+            try:
                 row = line.strip().split(',')
-                pclass = row([2])
-                survived = (row[1])
+                pclass = row[2]
+                survived = row[1]
                 if pclass == '1':
                     class_1 += 1
                     if survived == "1":
@@ -174,6 +239,134 @@ def class_surv(file):
                     class_3 += 1
                     if survived == "1":
                         class_3_surv += 1
-        except Exception as e:
-            print(e)
-            
+            except Exception as e:
+                print(e)
+        class_1_surv = ((class_1_surv/class_1)* 100)
+        class_2_surv = ((class_2_surv/class_2)* 100)
+        class_3_surv = ((class_3_surv/class_3)* 100)
+        class_surv_file.write(" Class 1 Surv:, Class 2 Surv:, Class 3 Surv:,")
+        class_surv_file.write(f"{class_1_surv:.2f}")
+        class_surv_file.write(f"{class_2_surv:.2f}")
+        class_surv_file.write(f"{class_3_surv:.2f}")
+
+def average_fare(file):
+    '''
+Description:
+             calculates the average passenger fare per class using rows 2 and 10
+Args: 
+        (file) CSV File
+Returns: 
+        (float) average fare per passenger class
+    '''
+    file.seek(1)
+    first_class_cost = 0
+    second_class_cost = 0
+    third_class_cost = 0
+    first_class = 0
+    second_class = 0
+    third_class = 0
+    with open ('average_fare.csv', 'w') as average_fare_file:
+        for line in file:
+            try:
+                row = line.strip().split(',')
+                pclass = row[2]
+                fare = float(row[10])
+                if pclass == '1':
+                    first_class += 1
+                    first_class_cost += fare
+                elif pclass == '2':
+                    second_class +=1
+                    second_class_cost +=1
+                elif pclass == '3':
+                    third_class +=1
+                    third_class_cost +=1
+            except Exception as e:
+                pass
+        first_class_cost = (first_class_cost/first_class)
+        second_class_cost = (second_class_cost/second_class)
+        third_class_cost = (third_class_cost/third_class)
+        average_fare_file.write("Class 1 Average Fare:, Class 2 Average Fare:, Class 3 Average Fare")
+        average_fare_file.write(f"{first_class_cost:.2f} ")
+        average_fare_file.write(f"{second_class:.2f} ")
+        average_fare_file.write(f"{third_class_cost:.2f} ")
+
+def fam_analysis(file):
+    '''
+Description:
+            Calculates family survival rates for parents and children or siblings using rows 1, 7 and 8
+Args:
+        (file) CSV
+Returns:
+        (float) survival rates for family passengers and non-family passengers
+
+    '''
+    file.seek(1)
+    non_family_passengers = 0
+    non_family_survivors_rate = 0
+    family_survivors_rate = 0
+    family_passengers = 0
+    with open ('family_analysis.csv', 'w') as fam_analysis_file:
+        for line in file:
+            try:
+                row = line.strip().split(',')
+                fam_size = int(row[7]) + int(row[8])
+                survived = row[1]
+                if fam_size > 0:
+                    family_passengers+=1
+                    if survived == '1':
+                        family_survivors_rate +=1
+                elif fam_size == 0:
+                    non_family_passengers +=1
+                    if survived == '0':
+                        non_family_survivors_rate +=1
+            except Exception as e:
+                print(e)
+        family_survivors_rate = (family_survivors_rate/family_passengers *100 )
+        non_family_survivors_rate = (non_family_survivors_rate/non_family_passengers *100)
+        fam_analysis_file.write("Family Passengers Surv Rate :, Non-Family Surv Rate")
+        fam_analysis_file.write(f"{family_survivors_rate:.2f} ")
+        fam_analysis_file.write(f"{non_family_survivors_rate:.2f}")
+
+
+
+
+def main ():
+        with open('titanic.csv', 'r') as file:
+            #header = file.readline().strip().split(',')  # Read the header row
+            #name_index = header.index('Name')  # Find the index of 'Name' column
+        
+            options = input('''  Hello, welcome to Titanic File.io, Which option would you like to choose?
+1 Print first 10 rows of data 
+2 Calculate Overall survival rate of passengers 
+3 Calucate the survival rate for certain gender and display which had higher survival rate
+4  Print average age of passengers 
+5  Display passenger with youngest age
+6 Display passenger with oldest age 
+7 Average of Survivors age Vs Non survivors age
+8 Calculate survival per passenger class
+9 Calculate average fare per passenger class
+10 Calculate survival rate for families vs non-families
+''')
+            if options == '1':
+                    display_data(file)
+            if options == '2':
+                 overall_survival_rate(file)
+            if options == '3':
+                 gender_surv_rate(file)
+            if options == '4':
+                average_age(file)
+            if options == '5':
+                youngest_age(file)
+            if options == '6':
+                oldest_age(file)
+            if options == '7':
+                Surv_vs_non_surv_age(file)
+            if options == '8':
+                class_surv(file)
+            if options == '9':
+                average_fare(file)
+            if options == '10':
+                fam_analysis(file)
+
+
+main()
