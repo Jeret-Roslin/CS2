@@ -1,3 +1,16 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+'''
+Author: Jeret Roslin
+Sources: Google Classroom, W3 Schools
+Description: Set of functions to calculate different patterns based of data from titanic passengers
+Date: 12.19.25
+Bugs: (N/A)
+Log: 1.0 J.R
+'''
+
+
 def display_data(file):
     '''
    Description: Displays data from CSV 
@@ -327,7 +340,89 @@ Returns:
         fam_analysis_file.write(f"{family_survivors_rate:.2f} ")
         fam_analysis_file.write(f"{non_family_survivors_rate:.2f}")
 
+def gender_data_visualization(file):
+     file.seek(1)  
+     male = 0
+     female = 0
+     males_survived = 0
+     females_survived = 0
+          
 
+
+     for line in file:
+        row = line.strip().split(',')
+        gender = row [5]
+        if gender == 'male':
+            male = male +1
+            if row [1] == '1': 
+                males_survived = males_survived +1
+        elif gender == 'female':
+            female = female +1
+            if row [1] == '1':
+                females_survived = females_survived +1    
+    
+     male_percentage = ((males_survived/male)*100)
+     female_percentage = ((females_survived/female)* 100)
+
+        
+     x = np.array(["Male Survival Rate %", "Female Survival Rate %"])
+     y = np.array([male_percentage, female_percentage])
+
+     plt.bar(x,y)
+     plt.show()
+
+def passenger_class_data_visualization(file):
+    file.seek(1)
+    class_1_surv = 0
+    class_2_surv = 0
+    class_3_surv = 0
+    class_1 = 0
+    class_2 = 0
+    class_3 = 0
+    with open('class_surv.csv', 'w') as class_surv_file:
+        
+        for line in file:
+            try:
+                row = line.strip().split(',')
+                pclass = row[2]
+                survived = row[1]
+                if pclass == '1':
+                    class_1 += 1
+                    if survived == "1":
+                        class_1_surv += 1
+                elif pclass == '2':
+                    class_2 += 1
+                    if survived == "1":
+                        class_2_surv += 1
+                elif pclass == '3':
+                    class_3 += 1
+                    if survived == "1":
+                        class_3_surv += 1
+            except Exception as e:
+                print(e)
+        class_1_surv = ((class_1_surv/class_1)* 100)
+        class_2_surv = ((class_2_surv/class_2)* 100)
+        class_3_surv = ((class_3_surv/class_3)* 100)
+
+        x2 = np.array(["Class 1 Survival Rate %" , "Class 2 Survival Rate %" , "Class 3 Survival Rate %"])
+        y2 = np.array([int(class_1_surv), int(class_2_surv), int(class_3_surv)])
+
+        plt.bar(x2,y2)
+        plt.show()
+
+def age_distribution_histogram(file):
+    file.seek(1)
+    age_list = []
+    for line in file:
+        row = line.strip().split(',')
+        try:
+                age_list.append(int(row[6]))
+        except ValueError:
+            pass
+    plt.hist(age_list)
+    plt.show()
+
+                
 
 
 def main ():
@@ -346,6 +441,9 @@ def main ():
 8 Calculate survival per passenger class
 9 Calculate average fare per passenger class
 10 Calculate survival rate for families vs non-families
+11 Gender survival rate data visualization 
+12 Passenger class survival rate data visualization
+13 Display Histogram for Age Distrubution on Titanic
 ''')
             if options == '1':
                     display_data(file)
@@ -367,6 +465,13 @@ def main ():
                 average_fare(file)
             if options == '10':
                 fam_analysis(file)
+            if options == '11':
+                gender_data_visualization(file)
+            if options == '12':
+                passenger_class_data_visualization(file)
+            if options == '13':
+                age_distribution_histogram(file)
+
 
 
 main()
