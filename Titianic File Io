@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as plt # math lib graphing service
+import numpy as np # used for performing mathematical operations
 
 '''
 Author: Jeret Roslin
@@ -195,7 +195,7 @@ Returns:
             row = line.strip().split(',')
 
             age = (row[6])
-            try:
+            try: #trys certain portion of code
                 survived = (row[1])
                 if survived == '1':
                     survivors += 1
@@ -205,7 +205,7 @@ Returns:
                     non_survivors_age += int(row[6])
 
 
-            except Exception as e:
+            except Exception as e: # functions unless error
                       pass
             
         survivors_age = (survivors_age/survivors)
@@ -334,13 +334,21 @@ Returns:
                         non_family_survivors_rate +=1
             except Exception as e:
                 print(e)
-        family_survivors_rate = (family_survivors_rate/family_passengers *100 )
+        family_survivors_rate = (family_survivors_rate/family_passengers *100 ) #calculates average
         non_family_survivors_rate = (non_family_survivors_rate/non_family_passengers *100)
         fam_analysis_file.write("Family Passengers Surv Rate :, Non-Family Surv Rate")
         fam_analysis_file.write(f"{family_survivors_rate:.2f} ")
         fam_analysis_file.write(f"{non_family_survivors_rate:.2f}")
 
 def gender_data_visualization(file):
+     '''
+Description:
+                displays bar graph of survival for gender
+Args: 
+        (file) - CSV File
+Returns:
+        (graph) Bar graph for male and female survival rates
+     '''
      file.seek(1)  
      male = 0
      female = 0
@@ -365,13 +373,25 @@ def gender_data_visualization(file):
      female_percentage = ((females_survived/female)* 100)
 
         
-     x = np.array(["Male Survival Rate %", "Female Survival Rate %"])
-     y = np.array([male_percentage, female_percentage])
+     x = np.array(["Male Survival Rate %", "Female Survival Rate %"])  #Displays X-axis titles for bar graph
+     y = np.array([male_percentage, female_percentage])  #displays y-axis calculations for bar graph
 
-     plt.bar(x,y)
-     plt.show()
+     plt.bar(x,y)  #creates bar graph
+     plt.show() #displays bar graph
 
 def passenger_class_data_visualization(file):
+    '''
+Description:
+             displays graph for passenger class survival rate
+
+Args:
+        (file) CSV File
+Returns:
+         (graph) bar graph for passenger class survival rate
+    '''
+
+
+
     file.seek(1)
     class_1_surv = 0
     class_2_surv = 0
@@ -411,22 +431,32 @@ def passenger_class_data_visualization(file):
         plt.show()
 
 def age_distribution_histogram(file):
+    '''
+Description:
+             displays histogram for age distrubution on titanic
+
+Args:
+        (file) CSV file
+
+Returns:
+         (graph) age distrubution histogram
+    '''
     file.seek(1)
     age_list = []
     for line in file:
         row = line.strip().split(',')
         try:
-                age_list.append(int(row[6]))
+                age_list.append(int(row[6])) # creates list of age disturibution
         except ValueError:
             pass
-    plt.hist(age_list)
-    plt.show()
+    plt.hist(age_list) #creates age list
+    plt.show() #displays age list
 
                 
 
 
 def main ():
-        with open('titanic.csv', 'r') as file:
+        with open('titanic.csv', 'r') as file: #tells program to read titanic.csv file
             #header = file.readline().strip().split(',')  # Read the header row
             #name_index = header.index('Name')  # Find the index of 'Name' column
         
