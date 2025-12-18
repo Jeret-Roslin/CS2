@@ -20,7 +20,7 @@ def display_data(file):
             first 10 rows from CSV file 
     '''
     try:
-        with open('titanic.csv', 'r') as file:
+        with open('titanic.csv', 'r') as file: # Opens csv in read mode
         #header = file.readline().strip().split(',')  # Read the header row
         #name_index = header.index('Name')  # Find the index of 'Name' column
        
@@ -377,6 +377,7 @@ Returns:
      y = np.array([male_percentage, female_percentage])  #displays y-axis calculations for bar graph
 
      plt.bar(x,y)  #creates bar graph
+     plt.title("Gender Survival Rate (%)")
      plt.show() #displays bar graph
 
 def passenger_class_data_visualization(file):
@@ -427,8 +428,9 @@ Returns:
         x2 = np.array(["Class 1 Survival Rate %" , "Class 2 Survival Rate %" , "Class 3 Survival Rate %"])
         y2 = np.array([int(class_1_surv), int(class_2_surv), int(class_3_surv)])
 
-        plt.bar(x2,y2)
-        plt.show()
+        plt.bar(x2,y2) # creates bar graph
+        plt.title("Passenger Class Survival Rate (%)")
+        plt.show() #displays bar graph
 
 def age_distribution_histogram(file):
     '''
@@ -442,7 +444,7 @@ Returns:
          (graph) age distrubution histogram
     '''
     file.seek(1)
-    age_list = []
+    age_list = [] 
     for line in file:
         row = line.strip().split(',')
         try:
@@ -450,7 +452,61 @@ Returns:
         except ValueError:
             pass
     plt.hist(age_list) #creates age list
+    plt.title("Age Distribution")
     plt.show() #displays age list
+
+
+def embarkation_survival(file):
+    '''
+Description:
+             calculates survival rates per port of embarkation utilizing row 1 and 12
+Args:
+        (file) - CSV File
+Returns:
+         (file) embarkation_survival_file
+    '''
+    Cherbourg_passengers = 0
+    Queenstown_passengers = 0
+    Southampton_passengers = 0 
+    Cherbourg_survivors = 0
+    Queenstown_survivors = 0
+    Southhampton_survivors = 0 
+    with open ('embarkation_survival.csv','w') as embarkation_file:
+
+        for line in file:
+            try:
+                row = line.strip().split(',')
+                survived = row[1]
+                Embarked = row[12]
+                if Embarked == 'C':
+                    Cherbourg_passengers +=1
+                    if survived == '1':
+                        Cherbourg_survivors +=1
+                elif Embarked == 'Q':
+                    Queenstown_passengers +=1
+                    if survived == '1':
+                        Queenstown_survivors +=1
+                elif Embarked == 'S':
+                    Southampton_passengers +=1
+                    if survived == '1':
+                        Southhampton_survivors += 1
+            except Exception as e:
+                pass
+        Cherbourg__survivors = ((Cherbourg_survivors/Cherbourg_passengers)* 100)
+        Queenstown_survivors = ((Queenstown_survivors/Queenstown_passengers)* 100)
+        Southhampton_survivors = ((Southhampton_survivors/Southampton_passengers)*100)
+        embarkation_file.write ("Cherbourg Passengers Survival Rate %, Queenstown Passengers Survival Rate % , Southhampton Passengers Survival Rate % ")
+        embarkation_file.write(f"{Cherbourg__survivors:.2f} ")
+        embarkation_file.write(f"{Queenstown_survivors:.2f} ")
+        embarkation_file.write(f"{Southhampton_survivors:.2f}")
+      
+
+                
+
+                
+    
+
+
 
                 
 
@@ -474,6 +530,7 @@ def main ():
 11 Gender survival rate data visualization 
 12 Passenger class survival rate data visualization
 13 Display Histogram for Age Distrubution on Titanic
+14 Port of Embarkation Survival Rate
 ''')
             if options == '1':
                     display_data(file)
@@ -501,6 +558,8 @@ def main ():
                 passenger_class_data_visualization(file)
             if options == '13':
                 age_distribution_histogram(file)
+            if options == '14':
+                embarkation_survival(file)
 
 
 
