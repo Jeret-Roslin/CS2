@@ -5,6 +5,7 @@ import numpy as np # used for performing mathematical operations
 Author: Jeret Roslin
 Sources: Google Classroom, W3 Schools
 Description: Set of functions to calculate different patterns based of data from titanic passengers
+Completed Functions: display_data, overall_surv_rate, gender_surv_rate, average_age, youngest_age, oldest_age surv vs non_surv age, class_surv, average_fare, fam_analysis, gender_data_visualization, passenger_data_visualization, age_distribution_histogram, embarkation_survival
 Date: 12.19.25
 Bugs: (N/A)
 Log: 1.0 J.R
