@@ -1,0 +1,67 @@
+import string
+import matplotlib.pyplot as plt
+import numpy as np
+
+def Romeo_and_Juliet (file_name):
+
+    try:
+        with open ('Romeo_and_Juliet.txt', 'r') as rj:
+                counts = dict()
+                for line in rj:
+                    line = line.translate(line.maketrans("", "", string.punctuation))
+                    line = line.lower()
+                    words = line.split()
+                    for word in words:
+                        if word not in counts:
+                            counts[word] = 1
+                        else:
+                            counts[word] += 1
+
+                print(counts)        
+    except:
+        print('File cannot be opened:', rj)
+        exit()
+def MND():
+    try:
+        with open ('MND.txt', 'r') as mnd:
+            counts = dict()
+            for line in mnd:
+                line = line.translate(line.maketrans("", "", string.punctuation))
+                #maketrans replaces third input to nothing
+                line = line.lower()
+                words = line.split()
+                for word in words:
+                    if word not in counts:
+                        counts[word] = 1
+                    else:
+                        counts[word] += 1
+               
+            sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
+            words_to_remove = ['the', 'a', 'an', 'of' 'that' 'i', 'you' 'me', 'they', 'is', 'than' , 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them']
+            for word in words_to_remove:
+                    if word in counts:
+                        del counts[word]
+            new_dictionary = dict()
+            count = 0
+            limit = 15
+            for key, value in sorted_words.items():
+                if count < limit:
+                    print(f'{key}: {value}')
+                    new_dictionary.update(({key: value}))
+                else:
+                    break
+
+    except:
+        print('File cannot be opened:' ,mnd)
+
+def main():
+    option=input('''
+1 Romeo and Juliet
+2 Midsummers Night Dream''')
+
+    if option == '1':
+        print(Romeo_and_Juliet('rj'))
+    elif option == '2':
+        print(MND())
+main()
+
