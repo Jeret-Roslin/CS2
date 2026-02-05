@@ -1,9 +1,19 @@
-
 import string
 import matplotlib.pyplot as plt #graph service
 import numpy as np
 
 def Romeo_and_Juliet (file_name):
+    '''
+Description:
+             Calculates 15 most used words in Romeo and Juliet and Graphes 
+Args: 
+     file_name (str) name of txt file
+
+Returns:
+        pie chart of most used words
+
+
+    '''
 
     try:
         with open ('Romeo_and_Juliet.txt', 'r') as rj:
@@ -19,11 +29,12 @@ def Romeo_and_Juliet (file_name):
                         else:
                             counts[word] += 1
                 sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
+                # puts dictionary in decreasing order based on value
                 removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im', 'not', 'for', 'this', 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am']
                 # creates list of filler words to remove 
                 for word in removed_words:
                     if word in counts:
-                        del sorted_words[word]
+                        del sorted_words[word] #removes chosen words
                 new_dictionary = dict()
                 count = 0
                 limit = 15
@@ -35,11 +46,11 @@ def Romeo_and_Juliet (file_name):
                         count += 1
                     else:
                         break
-                data = []
-                labels = []
+                data = [] #relates to values
+                labels = [] #relates to keys
                 for key, value in new_dictionary.items():
-                    labels.append(key)
-                    data.append(value)
+                    labels.append(key) #adds labels
+                    data.append(value) #adds data to labels
                 plt.pie(data, labels = labels)
                 # creates pie chart
                 plt.title("Most Used Words in Romeo and Juliet")
@@ -56,6 +67,14 @@ def MND():
 
     try:
         with open ("MND.txt") as mnd:
+            '''
+ Description: 
+            Calculates 15 most used words in Midsummer's Night Dream and Graphes
+Args: 
+        file_name (str) name of txt file
+Returns:
+            pie chart of most used words
+            '''
             counts = dict()
             for line in mnd:
                 line = line.translate(line.maketrans("", "", string.punctuation))
@@ -69,6 +88,7 @@ def MND():
                         counts[word] += 1
                
             sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
+            # puts dictionary in decreasing order based on value
             removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am', 'not', 'this']
             # creates list of filler words to be removed
             for word in removed_words:
@@ -84,11 +104,11 @@ def MND():
                     count +=1
                 else:
                     break
-            data = []
+            data = [] 
             labels = []
             for key, value in new_dictionary.items():
-                labels.append(key)
-                data.append(value)
+                labels.append(key) #adds labels
+                data.append(value) # adds data to labels 
             plt.pie(data, labels = labels)
             # creates pie chart
             plt.title("Most Used Words in Midsummers Night Dream")
@@ -110,3 +130,4 @@ def main():
     elif option == '2':
         MND()
 main()
+
