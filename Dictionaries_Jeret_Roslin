@@ -1,3 +1,13 @@
+'''
+Author: Jeret Roslin
+Sources: P4YE, Github
+Description: Set of functions which sort dictionaries and graph
+Date: 2/13/26
+Bugs: N/A
+Log: 1.0 J.R
+
+'''
+
 import string
 import matplotlib.pyplot as plt #graph service
 import numpy as np
@@ -12,11 +22,9 @@ Args:
 Returns:
         pie chart of most used words
 
-
     '''
-
     try:
-        with open ('Romeo_and_Juliet.txt', 'r') as rj:
+        with open ('Romeo_and_Juliet.txt', 'r', encoding='utf-8') as rj:
                 counts = dict()
                 for line in rj:
                     line = line.translate(line.maketrans("", "", string.punctuation))
@@ -51,7 +59,7 @@ Returns:
                 for key, value in new_dictionary.items():
                     labels.append(key) #adds labels
                     data.append(value) #adds data to labels
-                plt.pie(data, labels = labels)
+                plt.pie(data, labels = labels) #correlates data to labels 
                 # creates pie chart
                 plt.title("Most Used Words in Romeo and Juliet")
                 # displays title
@@ -63,7 +71,6 @@ Returns:
         print('File cannot be opened:', rj)
         exit()
 def MND():
-
 
     try:
         with open ("MND.txt") as mnd:
@@ -89,7 +96,7 @@ Returns:
                
             sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
             # puts dictionary in decreasing order based on value
-            removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am', 'not', 'this']
+            removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am', 'not', 'this', 'every', 'campaign']
             # creates list of filler words to be removed
             for word in removed_words:
                     if word in counts:
@@ -111,7 +118,7 @@ Returns:
                 data.append(value) # adds data to labels 
             plt.pie(data, labels = labels)
             # creates pie chart
-            plt.title("Most Used Words in Midsummers Night Dream")
+            plt.title("Most Used Words Kamala Harris' DNC Speech")
             # displays title
             plt.show()
             # displays chart
@@ -119,15 +126,135 @@ Returns:
     except Exception as e:
         print('Error', e)
     
+def Harris_Speech():
+    '''
+Description:
+            Calculates 15 most used words in Kamala Harris Speech
+Args:
+        file_name (str)
+Returns:
+         pie chart of most used words
+    '''
+    try:
+        with open ("Harris_Speech.txt", 'r', encoding='utf-8') as harris: 
+            counts = dict()
+            for line in harris:
+                line = line.translate(line.maketrans("", "", string.punctuation))
+                #removes punctuations
+                line = line.lower() # all words become lowercase
+                words = line.split() # all sentences split up 
+                for word in words:
+                    if word not in counts:
+                        counts[word] = 1
+                    else:
+                        counts[word] += 1
+               
+            sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
+            # puts dictionary in decreasing order based on value
+            removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am', 'not', 'this', 'who', 'never', 'say', 'know', 'give', 'let', 'full', 'work', 'up' 'when', 'hard', 'always', 'much', 'us', 'can', "don't", 'thing', 'up', 'afternoon', 'time','ever', 'when', 'light', 'thank', 'ran', 'themselves', 'extraordinary', 'every', 'must', 'today']
+            # creates list of filler words to be removed
+            for word in removed_words:
+                    if word in counts:
+                        del sorted_words[word]
+            new_dictionary = dict()
+            count = 0
+            limit = 15
+            for key, value in sorted_words.items():
+                if count < limit:
+                    print(f'{key}: {value}')
+                    new_dictionary.update(({key: value}))
+                    count +=1
+                else:
+                    break
+            data = [] 
+            labels = []
+            for key, value in new_dictionary.items():
+                labels.append(key) #adds labels
+                data.append(value) # adds data to labels 
+            plt.pie(data, labels = labels)
+            # creates pie chart
+            plt.title("Most Used Words in Kamala Harris' DNC Speech")
+            # displays title
+            plt.show()
+            # displays chart
+
+    except Exception as e:
+        print('Error', e)
+
+def trump_speech(): 
+    '''
+Description:
+            calculates 15 most used words in Donald Trump
+Args:
+     file_name (str)
+Returns:
+        pie chart of most used words
+    '''
+    try:
+        with open ("Trump_Speech.txt", 'r', encoding='utf-8') as trump: 
+            counts = dict()
+            for line in trump:
+                line = line.translate(line.maketrans("", "", string.punctuation))
+                #removes punctuations
+                line = line.lower() # all words become lowercase
+                words = line.split() # all sentences split up 
+                for word in words:
+                    if word not in counts:
+                        counts[word] = 1
+                    else:
+                        counts[word] += 1
+               
+            sorted_words = {k: v for k, v in sorted(counts.items(), key=lambda item: item[1], reverse=True)}
+            # puts dictionary in decreasing order based on value
+            removed_words = ['the', 'a', 'an', 'of', 'that', 'i', 'you', 'me', 'they', 'is', 'than', 'there', 'their', 'im' 'not', 'for', 'this' 'us', 'them', 'and', 'to', 'my', 'in', 'thou', 'with', 'it', 'be', 'but', 'thy', 'what', 'o', 'as', 'her', 'will', 'so', 'thee', 'his', 'have', 'he', 'by', 'she', 'shall', 'your', 'no', 'come', 'him', 'all', 'do', 'from', 'then', 'now', 'if', 'good', 'on', 'here', 'at', 'go', 'enter', 'well', 'are', 'or', 'more', 'we', 'man', 'hath', 'our', 'which', 'one', 'am', 'not', 'this', 'who', 'never', 'say', 'know', 'give', 'let', 'full', 'work', 'up' 'when', 'hard', 'always', 'much', 'us', 'can', "don't", 'thing', 'up', 'afternoon', 'time','ever', 'when', 'light', 'thank', 'ran', 'themselves', 'extraordinary', 'every', 'must', 'today', 'back', 'been', 'into', 'before', 'has', 'any', 'very', 'like', 'years', 'going', 'day', 'end', 'over', 'many', 'was', 'bring', 'new', 'other', 'through', 'most', 'under', 'right']
+            # creates list of filler words to be removed
+            for word in removed_words:
+                    if word in counts:
+                        del sorted_words[word]
+            new_dictionary = dict()
+            count = 0
+            limit = 15
+            for key, value in sorted_words.items():
+                if count < limit:
+                    print(f'{key}: {value}')
+                    new_dictionary.update(({key: value}))
+                    count +=1
+                else:
+                    break
+            data = [] 
+            labels = []
+            for key, value in new_dictionary.items():
+                labels.append(key) #adds labels
+                data.append(value) # adds data to labels 
+            plt.pie(data, labels = labels)
+            # creates pie chart
+            plt.title("Most Used Words in Donald Trump's Inauguration Speech")
+            # displays title
+            plt.show()
+            # displays chart
+
+    except Exception as e:
+        print('Error', e)
+
+
+     
+        
+
 
 def main():
     option=input('''
 1 Romeo and Juliet
-2 Midsummers Night Dream''')
+2 Midsummers Night Dream
+3 Kamala Harris DNC Speech
+4 Trump Inauguration Speech''')
 
     if option == '1':
         print(Romeo_and_Juliet('rj'))
     elif option == '2':
         MND()
+    elif option == '3':
+        Harris_Speech()
+    elif option == '4':
+        trump_speech()
 main()
 
