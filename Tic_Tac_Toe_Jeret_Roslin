@@ -1,0 +1,113 @@
+import sys
+
+board = [
+["","", ""],
+["", "", ""],
+["", "", ""],
+        ]
+
+for row in board:
+    for cell in row:
+        print(cell, end='')
+    print()
+
+def move(turn, board):
+    while True:
+        column = input(f"{turn} Which Column do you want? 1,2,3")
+        if column == '1' or column == '2' or column == '3':
+            pass 
+        else:
+            print ('Error: Invalid Move')
+            continue 
+        row = input ("Which row do you want? 1,2,3")
+        if row == '1' or row == '2' or row == '3':
+            break
+        else: 
+            print ("Error: Invalid Move")
+    if board[int(row )-1] [int(column)-1] == '':
+        board[int(row) -1][int(column) -1] = turn
+    else:
+        print('Error: Spot Already Taken')
+
+
+
+def check_winner(board):
+    if board [0][0] == 'x' and  board [0][1] == 'x' and board [0][2] == 'x':
+        print (f'{'x'} has won!' )
+        sys.exit()
+    elif board [1][0] == 'x' and board [1][1] == 'x' and board [1][2] == 'x':
+         print (f'{'x'} has won!' )
+         sys.exit()
+    elif board [2][0] == 'x' and board [2][1] == 'x' and board [2][2] == 'x':
+        print (f'{'x'} has won!')
+    
+    elif board [0][0] == 'x' and board [1][0] == 'x' and board[2][0] == 'x':
+        print (f'{'x'} has won!')
+        sys.exit()
+    elif board [1][0]== 'x' and board == [1][1] == 'x' and board[1][2] == 'x':
+        print (f'{'x'} has won!')
+        sys.exit()
+    elif board [2][0] == 'x' and board[2][1] and board [2][2] == 'x':
+        print (f'{'x'} has won')
+
+    elif board [0][0] == 'x' and board [1][1] and board [2][2] == 'x': 
+        print (f'{'x'} has won')
+
+
+
+    elif board [0][0] == 'o' and  board [0][1] == 'o' and board [0][2] == 'o':
+        print (f'{'o'} has won!' )
+        sys.exit()
+    elif board [1][0] == 'o' and board [1][1] == 'o' and board [1][2] == 'o':
+         print (f'{'o'} has won!' )
+         sys.exit()
+    elif board [2][0] == 'o' and board [2][1] == 'o' and board [2][2] == 'o':
+        print (f'{'o'} has won!')
+    
+    elif board [0][0] == 'o' and board [1][0] == 'o' and board[2][0] == 'o':
+        print (f'{'o'} has won!')
+        sys.exit()
+    elif board [1][0]== 'o' and board == [1][1] == 'o' and board[1][2] == 'o':
+        print (f'{'o'} has won!')
+        sys.exit()
+    elif board [2][0] == 'o' and board[2][1] and board [2][2] == 'o':
+        print (f'{'o'} has won')
+
+    elif board [0][0] == 'o' and board [1][1] and board [2][2] == 'o': 
+        print (f'{'o'} has won')
+
+
+
+
+def tie(board):
+    if board [0][0] == '' or  board [0][1] == '' or  board [0][2] == '' or   board [1][0] == '' or  board [2][0] == '' or  board [1][2] == '' or   board [0][0] == '' or  board [0][2] == '':
+        return False 
+    else:
+        print('its a tie')
+        print(f""" 
+{board[0]}
+{board[1]}
+{board [2]}""")
+        sys.exit()
+
+ 
+    
+
+def main():
+    turn = 'x'
+    while True:
+        move(turn, board)
+        if turn == 'o':
+            turn = 'x'
+        else:
+            turn = 'o'
+        print(f""" 
+{board[0]}
+{board[1]}
+{board [2]}""")
+        check_winner(board)
+        tie (board)
+main()
+
+
+
