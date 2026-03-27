@@ -1,82 +1,118 @@
+'''
+Author: Jeret Roslin
+Sources: Mr. Campbell, Google Classroom
+Description: Tic-Tac-Toe Game that lets user's play by choosing spots on a board
+Date: 3/30/26
+Bugs: Some vertical win conditions may not be working, has won may also not be working at times
+Log: 1.0 J.R
+'''
+
 import sys
+import random 
 
-board = [
-["","", ""],
-["", "", ""],
-["", "", ""],
-        ]
 
-for row in board:
-    for cell in row:
-        print(cell, end='')
-    print()
 
-def move(turn, board):
+def move(turn, board, x, o):
+    '''
+Description:
+            Lets the user choose which row and column they want on the board 
+Args: 
+        turn, board, x, o (list)
+Returns:
+         user's choice of board spot
+
+    '''
     while True:
-        column = input(f"{turn} Which Column do you want? 1,2,3")
-        if column == '1' or column == '2' or column == '3':
-            pass 
-        else:
-            print ('Error: Invalid Move')
-            continue 
-        row = input ("Which row do you want? 1,2,3")
-        if row == '1' or row == '2' or row == '3':
+        while True:
+            if turn == 'x':
+                row = input(f"{x}   you are X, Which row do you choose? 1,2,3 ")
+            else:
+                row = input (f"{o}  you are O, which row do you choose? 1,2,3 ")
+            if row == '1' or row == '2' or row == '3':
+                pass 
+            else:
+                print ('Error: Invalid Move')
+                continue 
+            column = input ("Which Column do you choose? 1,2,3 ")
+            if column == '1' or column == '2' or column == '3':
+                break
+            else: 
+                print ("Error: Invalid Move")
+        if board[int(row )-1] [int(column)-1] == '': #checks if there is an empty space
+            board[int(row) -1][int(column) -1] = turn
             break
-        else: 
-            print ("Error: Invalid Move")
-    if board[int(row )-1] [int(column)-1] == '':
-        board[int(row) -1][int(column) -1] = turn
-    else:
-        print('Error: Spot Already Taken')
+        else:
+            print('Error: Spot Already Taken')
+            continue
 
 
 
 def check_winner(board):
-    if board [0][0] == 'x' and  board [0][1] == 'x' and board [0][2] == 'x':
-        print (f'{'x'} has won!' )
-        sys.exit()
+    '''
+Description:
+            set of winning combinations for board
+Args:
+     (board)
+Returns:
+         x or o is winner
+    '''
+    if board [0][0] == 'x' and  board [0][1] == 'x' and board [0][2] == 'x': #possible combos
+        print ('x has won!' )
+        return False
     elif board [1][0] == 'x' and board [1][1] == 'x' and board [1][2] == 'x':
-         print (f'{'x'} has won!' )
-         sys.exit()
+         print ('x has won!' )
+         return False
     elif board [2][0] == 'x' and board [2][1] == 'x' and board [2][2] == 'x':
-        print (f'{'x'} has won!')
+        print ('x has won!')
+        return False
     
     elif board [0][0] == 'x' and board [1][0] == 'x' and board[2][0] == 'x':
-        print (f'{'x'} has won!')
-        sys.exit()
-    elif board [1][0]== 'x' and board == [1][1] == 'x' and board[1][2] == 'x':
-        print (f'{'x'} has won!')
-        sys.exit()
-    elif board [2][0] == 'x' and board[2][1] and board [2][2] == 'x':
-        print (f'{'x'} has won')
+        print ('x has won!')
+        return False
+    elif board [0][0] == 'x' and board [0][1] == 'x' and board [0][2] == 'x':
+        return False
+    elif board [0][2] == 'x' and board [1][2] == 'x' and board [2][2] == 'x':
+        return False
+    elif board[1][0]== 'x' and board[1][1] == 'x' and board[1][2] == 'x':
+        print ('x has won!')
+        return False
+    elif board [2][0] == 'x' and board[2][1]== 'x' and board [2][2] == 'x':
+        print ('x has won')
+        return False
 
-    elif board [0][0] == 'x' and board [1][1] and board [2][2] == 'x': 
-        print (f'{'x'} has won')
-
+    elif board [0][0] == 'x' and board [1][1] == 'x' and board [2][2] == 'x': 
+        print ('x has won')
+        return False
+    elif board [2][0] == 'x' and board [1][1] == 'x' and board [0][2] == 'x': 
+        print ('x has won')
+        return False
 
 
     elif board [0][0] == 'o' and  board [0][1] == 'o' and board [0][2] == 'o':
-        print (f'{'o'} has won!' )
-        sys.exit()
+        print ('o has won!' )
+        return False
     elif board [1][0] == 'o' and board [1][1] == 'o' and board [1][2] == 'o':
-         print (f'{'o'} has won!' )
-         sys.exit()
+         print ('o has won!' )
+         return False
     elif board [2][0] == 'o' and board [2][1] == 'o' and board [2][2] == 'o':
-        print (f'{'o'} has won!')
+        print ('o has won!')
     
     elif board [0][0] == 'o' and board [1][0] == 'o' and board[2][0] == 'o':
-        print (f'{'o'} has won!')
-        sys.exit()
-    elif board [1][0]== 'o' and board == [1][1] == 'o' and board[1][2] == 'o':
-        print (f'{'o'} has won!')
-        sys.exit()
-    elif board [2][0] == 'o' and board[2][1] and board [2][2] == 'o':
-        print (f'{'o'} has won')
+        print ('o has won!')
+        return False
+    elif board [1][0] == 'o' and board [1][1] == 'o' and board[1][2] == 'o':
+        print ('o has won!')
+        return False
+    elif board [2][0] == 'o' and board[2][1] == 'o' and board [2][2] == 'o':
+        print ('o has won')
+        return False
 
-    elif board [0][0] == 'o' and board [1][1] and board [2][2] == 'o': 
-        print (f'{'o'} has won')
-
-
+    elif board [0][0] == 'o' and board [1][1] == 'o' and board [2][2] == 'o': 
+        print ('o has won')
+        return False
+    elif board [2][0] == 'o' and board [1][1] == 'o' and board [0][2] == 'o': 
+        print ('o has won')
+        return False
 
 
 def tie(board):
@@ -88,15 +124,29 @@ def tie(board):
 {board[0]}
 {board[1]}
 {board [2]}""")
-        sys.exit()
+        return True
 
  
     
 
 def main():
+    player_1 = input("Hello Player 1 please enter your name ")
+    player_2 = input("Hello Player 2 please enter your name ")
+    names =[player_1, player_2]
+    x = random.choice(names)
+    names.remove(x)
+    o = random.choice(names)
+    names.remove(o)
+
+    board = [
+["","", "" ],
+["", "", ""],
+["", "", ""],
+        ]
+    
     turn = 'x'
     while True:
-        move(turn, board)
+        move(turn, board, x, o)
         if turn == 'o':
             turn = 'x'
         else:
@@ -104,9 +154,47 @@ def main():
         print(f""" 
 {board[0]}
 {board[1]}
-{board [2]}""")
-        check_winner(board)
-        tie (board)
+{board[2]}""")
+        # checks if somebody won
+        if check_winner(board) == False:
+            while True:
+                play_again = input ('Do you want to play again? (yes or no) ')
+                if play_again == 'yes': 
+                    # reset the board
+                    board = [
+        ["","", "" ],
+        ["", "", ""],
+        ["", "", ""],
+                ]
+                    turn = 'x'
+                    #play again
+                    break
+                elif play_again == 'no':
+                    sys.exit()
+                else:
+                    print ('Invalid Statement, please try again')
+                    continue
+        if tie (board) == True:
+             while True:
+                play_again = input ('Do you want to play again? (yes or no) ')
+                if play_again == 'yes': 
+                    # reset the board
+                    board = [
+        ["","", "" ],
+        ["", "", ""],
+        ["", "", ""],
+                ]
+                    turn = 'x'
+                    #play again
+                    break
+                elif play_again == 'no':
+                    sys.exit()
+                else:
+                    print ('Invalid Statement, please try again')
+                    continue
+
+
+            
 main()
 
 
