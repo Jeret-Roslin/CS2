@@ -1,16 +1,36 @@
 '''
 Author: Jeret Roslin
-Sources: Mr. Campbell, Google Classroom
+Sources: Mr. Campbell, Google Classroom, Julian Toub
 Description: Tic-Tac-Toe Game that lets user's play by choosing spots on a board
 Date: 4/2/26
-Bugs: Some tie scenarios may bug into infitite loop, please let me know if that happens.
+Bugs: N/A but please let me know if bug occurs 
 Log: 1.0 J.R
 '''
 
 import sys
 import random 
 
+def display_board(board):
+    '''
+ Description:
+              creates board for user to see 
+Args: 
+        board (list) - allows code to read board 
+Returns: 
+         playable board 
+    
+    '''
+ 
 
+    print (f'''
+ 1   2   3
+1 | {board [0][0]} | {board [0][1]} | {board [0][2]} |
+ -   -   -
+2 | {board [1][0]} | {board [1][1]} | {board [1][2]} |
+-  -  - 
+3 | {board [2][0]} | {board [2][1]} | {board [2][2]} |
+
+           ''')
 
 def move(turn, board, x, o):
     '''
@@ -135,10 +155,7 @@ Returns:
         return False 
     else:
         print('its a tie')
-        print(f""" 
-{board[0]}
-{board[1]}
-{board [2]}""")
+        display_board (board)
         return True
 
  
@@ -160,16 +177,15 @@ def main():
         ]
     
     turn = 'x'
+    display_board (board)
     while True:
         move(turn, board, x, o) #creates loops of turns 
         if turn == 'o':
             turn = 'x'
         else:
             turn = 'o'
-        print(f""" 
-{board[0]}
-{board[1]}
-{board[2]}""")
+        display_board(board)
+      
         # checks if somebody won
         if check_winner(board) == False:
             while True:
