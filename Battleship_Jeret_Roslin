@@ -1,0 +1,133 @@
+'''
+Author: Jeret Roslin
+Description: play battleship with 10 turns on a 5v5 board 
+Date: 5/6/25
+Bugs: None
+Sources: Mr. Campbell, pygame library
+Log: 1.0 J.R
+
+'''
+
+import random
+import pygame
+
+board = [
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+]
+    
+
+def dot_selection(number_of_ships, rows, columns):
+    '''
+Description:
+             chooses where on the board ships will be placed 
+Args:
+         number_of_ships (int)  rows (list) (columns) list
+Returns:
+         randomly selected ship locations on board and adds them to list of rows and columns 
+    '''
+
+    count = number_of_ships
+
+    while count > 0:
+        battleship_rows = random.randint(0,4) #random spots where battleships placed in rows 
+        battleship_columns = random.randint(0,4) #random spots in columns where battleships are placed
+        if board [battleship_rows][battleship_columns] == 'X':
+            rows.append(battleship_rows) #adds to list in main 
+            columns.append(battleship_columns)
+            count = count -1
+
+def move (rows, columns, number_of_ships, turns):
+        '''
+Description:
+             asks user what spot they want to hit
+Args:
+         turns (int)  number_of_ships (int) rows (turns) columns (turns)
+Returns:
+         Hit or miss messages based on if the user chose the correct spot 
+        '''
+    
+        while True:
+            row = input (f'Which row do you choose (type # 1-5) You have {turns} turn(s) remaining ' )
+            if row == '1' or row == '2' or row == '3' or row == '4' or row == '5':
+                pass
+            elif row == 'combos': #prints list of combos for coder to see for testing purposes
+                print (f'{rows}')
+                print (f'{columns}')
+                continue
+            else:
+                print ('Invalid move')
+                continue
+            column = input (f'Which column do you choose (type #1-5) You have {turns} turn(s) remaining ' )
+            if column == '1' or column == '2' or column == '3' or column == '4' or column == '5':
+               
+                break
+            else:
+                print ('Invalid move')
+                continue
+        count = 0
+        while count < number_of_ships:
+            if (int(row) -1) == rows[count]: # -1 of numbers for user interface purposes
+                if (int(column) -1) == columns[count]: # -1 of numbers for user interface purposes 
+                    board[int(row)-1][int(column) -1] = '💥'
+                    sound_effects('explosion.mp3')
+                    print ('HIT')
+                    return True
+            count = count +1
+        if board[int(row)-1][int(column) -1] == 'X':
+                board[int(row)-1][int(column) -1] = '🌊'
+                sound_effects('miss.mp3')
+                print ('MISS')
+                return False
+        
+
+def sound_effects(sound):
+    pygame.init() #initializes pygame 
+    pygame.mixer.init() #intializes the mixer
+
+    sound = pygame.mixer.Sound(f"{sound}") #selects which noise to use
+    sound.play() #plays sound
+
+def main():
+    turns = 10
+    hit_battleships = 0
+    while True:
+        try:
+            number_of_ships = int(input('How many battleships do you want? (Max of 10 ships) 💥 = hit, 🌊 = miss '))
+            if number_of_ships > 0 and number_of_ships <= 10:
+                break
+            else:
+                print('Invalid input') #error for typing a number thats wrong
+        except ValueError:
+            print ('Invalid input ') # error for not typing a number
+    rows = []
+    columns = []
+    
+    dot_selection(number_of_ships, rows, columns) 
+    while True:
+        print(f'''
+{board[0]}
+{board[1]}
+{board[2]}
+{board[3]}
+{board[4]}
+''')
+        
+        
+       
+        if move(rows, columns, number_of_ships, turns) == True:
+            turns = turns - 1
+            hit_battleships = hit_battleships + 1
+            if hit_battleships == number_of_ships: # number of battleships is equal to number of hits
+                print ("Congrats! You have won")
+                break
+        else:
+            turns = turns - 1 #keeps reducing turns until user either wins or loses
+        if turns == 0:
+            print(' Sorry: you lost')
+            break
+
+main()
