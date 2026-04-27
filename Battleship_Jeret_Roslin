@@ -1,15 +1,15 @@
 '''
 Author: Jeret Roslin
 Description: play battleship with 10 turns on a 5v5 board 
-Date: 5/6/25
-Bugs: SOUNDS NOT WORKING
+Date: 4/27/26
+Bugs: Some sounds may be buggy
 Sources: Mr. Campbell, pygame library
 Log: 1.0 J.R
 
 '''
 
-import random
-import pygame
+import random  #imports random choices
+import pygame  #imports sound library
 
 player_board = [
     ['X', 'X', 'X', 'X', 'X'],
@@ -38,7 +38,7 @@ Returns:
     '''
 
     count = number_of_ships
-
+    positions = []
     while count > 0:
         battleship_rows = random.randint(0,4) #random spots where battleships placed in rows 
         battleship_columns = random.randint(0,4) #random spots in columns where battleships are placed
@@ -46,19 +46,22 @@ Returns:
             rows.append(battleship_rows) #adds to list in main 
             columns.append(battleship_columns)
             count = count -1
+    for i in range(len(rows)):
+        positions.append([rows[i], columns[i]]) #random spots robot chooses is added to positions list
+    return positions
 
 def player_dot_selection(player_board, number_of_ships):
     count = number_of_ships
 
     while count > 0:
     
-        row = input (f'Which row do you choose (type # 1-5)' )
+        row = input (f'Which row do you choose (type # 1-5) ' )
         if row == '1' or row == '2' or row == '3' or row == '4' or row == '5':
             pass
         else:
             print ('Invalid move')
             continue
-        column = input (f'Which column do you choose (type #1-5)' )
+        column = input (f'Which column do you choose (type #1-5) ' )
         if column == '1' or column == '2' or column == '3' or column == '4' or column == '5':
             player_board[int(row)-1][int(column)-1] = '🚢'
             count = count - 1
@@ -68,7 +71,7 @@ def player_dot_selection(player_board, number_of_ships):
 
 
 
-def move (rows, columns, number_of_ships):
+def move (rows, columns, number_of_ships, positions):
         '''
 Description:
              asks user what spot they want to hit
@@ -98,18 +101,17 @@ Returns:
                 continue
         count = 0
         while count < number_of_ships:
-            if (int(row) -1) == rows[count]: # -1 of numbers for user interface purposes
-                if (int(column) -1) == columns[count]: # -1 of numbers for user interface purposes 
-                    ai_board[int(row)-1][int(column) -1] = '💥'
-                    sound_effects('explosion.mp3')
-                    print ('HIT')
-                    return True
-            count = count +1
-        if ai_board[int(row)-1][int(column) -1] == 'X':
+            if [(int(row) -1),(int(column) -1)] in positions: #if spots chosen are in positons do what is below
+                ai_board[int(row)-1][int(column) -1] = '💥'
+                sound_effects('explosion.mp3')
+                print ('player has hit a ship')
+                return True
+            else:
                 ai_board[int(row)-1][int(column) -1] = '🌊'
-                sound_effects('miss.mp3')
-                print ('MISS')
+                sound_effects('buzzer.mp3')
+                print ('player has missed')
                 return False
+
         
 def robot(player_board):
     '''
@@ -128,12 +130,10 @@ Returns:
         column = random.randint(0,4) #assigns random column for robot to guess ships
         if player_board [row][column] == '🚢':
             player_board = '💥'
-            sound_effects('explosion.mp3')
             print ('The robot hit a battleship')
             return True #means the robot hit ship
         elif player_board [row][column] == 'X':
             player_board = '🌊' #what is replaced for blank 
-            sound_effects('miss.mp3')
             print ('The robot has missed')
             return False  #means the robot missed
 
@@ -151,13 +151,13 @@ Returns:
     pygame.init() #initializes pygame 
     pygame.mixer.init() #intializes the mixer
 
-    pygame.mixer.music.load(f"{sound}")
-    pygame.mixer.music.set_volume(0.8)
-    pygame.mixer.music.play()
+    pygame.mixer.music.load(f"{sound}") #loads sound
+    pygame.mixer.music.set_volume(0.8) #sets volume of sound
+    pygame.mixer.music.play() #plays sound
 
-    while pygame.mixer.get_busy():
+    while pygame.mixer.music.get_busy(): #waits 3 secs for sound
         pygame.time.Clock().tick(3)
-    pygame.quit()
+
 
 
 def main():
@@ -165,7 +165,8 @@ def main():
     robot_hit_battleships = 0
     while True:
         try:
-            number_of_ships = int(input('How many battleships do you want? (Max of 10 ships) 💥 = hit, 🌊 = miss '))
+            number_of_ships = int(input(' Welcome to Battleship! How many battleships do you want? (Max of 10 ships) 💥 = hit, 🌊 = miss '))
+            print("Turn on sound for a better experience!")
             if number_of_ships > 0 and number_of_ships <= 10:
                 break
             else:
@@ -175,7 +176,7 @@ def main():
     rows = []
     columns = []
     
-    ai_dot_selection(number_of_ships, rows, columns) 
+    positions = ai_dot_selection(number_of_ships, rows, columns) #positions where robot has placed ships
     player_dot_selection(player_board, number_of_ships)
     while True: #prints boards
         print(f''' 
@@ -196,7 +197,7 @@ def main():
       
         
        
-        if move(rows, columns, number_of_ships) == True:
+        if move(rows, columns, number_of_ships, positions) == True:
             
             hit_battleships = hit_battleships + 1
             if hit_battleships == number_of_ships: # number of battleships is equal to number of hits
