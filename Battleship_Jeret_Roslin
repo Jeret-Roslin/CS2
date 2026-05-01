@@ -1,8 +1,8 @@
 '''
 Author: Jeret Roslin
-Description: play battleship with 10 turns on a 5v5 board 
+Description: play battleship on a 5v5 board with a number of ships from 1-10
 Date: 4/27/26
-Bugs: Some sounds may be buggy
+Bugs: N/A
 Sources: Mr. Campbell, pygame library
 Log: 1.0 J.R
 
@@ -63,8 +63,11 @@ def player_dot_selection(player_board, number_of_ships):
             continue
         column = input (f'Which column do you choose (type #1-5) ' )
         if column == '1' or column == '2' or column == '3' or column == '4' or column == '5':
-            player_board[int(row)-1][int(column)-1] = '🚢'
-            count = count - 1
+            if player_board[int(row)-1][int(column)-1] == 'X':
+                player_board[int(row)-1][int(column)-1] = '🚢'
+                count = count - 1
+            else:
+                print('Ship already there')
         else:
             print ('Invalid move')
             continue
@@ -94,7 +97,6 @@ Returns:
                 continue
             column = input (f'Which column do you choose (type #1-5) ' )
             if column == '1' or column == '2' or column == '3' or column == '4' or column == '5':
-               
                 break
             else:
                 print ('Invalid move')
@@ -105,12 +107,12 @@ Returns:
                 ai_board[int(row)-1][int(column) -1] = '💥'
                 sound_effects('explosion.mp3')
                 print ('player has hit a ship')
-                return True
+                return True #exits function and returns true as a boolean
             else:
                 ai_board[int(row)-1][int(column) -1] = '🌊'
                 sound_effects('buzzer.mp3')
                 print ('player has missed')
-                return False
+                return False #exits function and returns false as a boolean
 
         
 def robot(player_board):
@@ -129,11 +131,11 @@ Returns:
         row = random.randint(0,4) #assigns random row for robot to guess ships
         column = random.randint(0,4) #assigns random column for robot to guess ships
         if player_board [row][column] == '🚢':
-            player_board = '💥'
+            player_board[row][column] = '💥'
             print ('The robot hit a battleship')
             return True #means the robot hit ship
         elif player_board [row][column] == 'X':
-            player_board = '🌊' #what is replaced for blank 
+            player_board[row][column] = '🌊' #what is replaced for blank 
             print ('The robot has missed')
             return False  #means the robot missed
 
@@ -167,7 +169,7 @@ def main():
         try:
             number_of_ships = int(input(' Welcome to Battleship! How many battleships do you want? (Max of 10 ships) 💥 = hit, 🌊 = miss '))
             print("Turn on sound for a better experience!")
-            if number_of_ships > 0 and number_of_ships <= 10:
+            if number_of_ships > 0 and number_of_ships <= 10: #if number of ships is between 1-10, break
                 break
             else:
                 print('Invalid input') #error for typing a number thats wrong
@@ -179,7 +181,9 @@ def main():
     positions = ai_dot_selection(number_of_ships, rows, columns) #positions where robot has placed ships
     player_dot_selection(player_board, number_of_ships)
     while True: #prints boards
-        print(f''' 
+        
+        print(f'''
+Robot's Board  🤖
 {ai_board[0]}  
 {ai_board[1]}
 {ai_board[2]}
@@ -187,6 +191,7 @@ def main():
 {ai_board[4]}
 ''')
         print(f'''
+Your Board 👨
 {player_board[0]}
 {player_board[1]}
 {player_board[2]}
@@ -199,14 +204,14 @@ def main():
        
         if move(rows, columns, number_of_ships, positions) == True:
             
-            hit_battleships = hit_battleships + 1
-            if hit_battleships == number_of_ships: # number of battleships is equal to number of hits
+            hit_battleships = hit_battleships + 1 
+            if hit_battleships == number_of_ships: #number of battleships is equal to number of hits
                 sound_effects('congrats.mp3')
                 print ("Congrats! You have won 🎉👏 ")
                 break
         if robot(player_board) == True:
-            robot_hit_battleships = hit_battleships + 1
-            if robot_hit_battleships == number_of_ships: # number of battleships is equal to number of hits
+            robot_hit_battleships = hit_battleships + 1 #if robot hits  a ship add +1 to ships hit
+            if robot_hit_battleships == number_of_ships: #number of battleships is equal to number of hits
                 sound_effects('fail.mp3')
                 print ("Sorry you have lost 😢 ")
                 break
