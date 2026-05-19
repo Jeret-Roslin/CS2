@@ -1,0 +1,173 @@
+'''
+Author: Jeret Roslin
+Description: Series of recursive functions
+Date: 5/15/26
+Bugs:  N/A
+Sources: Google Classroom
+Log 1.0 J.R
+'''
+
+
+def factorial(n):
+    '''
+Calculates the factorial of an integer
+Args:
+        n (int) an integer you are calculating the factorial of
+Returns:
+        int: the factorial of n
+    '''
+    if n==0:
+        return 1 #base case
+    return n * factorial(n-1)
+
+def summation (n):
+    '''
+Description:
+             calculates the sum of all integers from 0 to n
+Args:
+       n (int) - integer
+Returns:
+         int: the sum of all integers from 0-n 
+    '''
+
+    if n > 0:
+        return n + summation(n-1)
+    if n == 0:
+        return  0 #base case
+def powers(a,n):
+    '''
+Description:
+          calculates (a) raised to the power of n
+Args:
+        a (int) base number
+        n (int) what the base number is raised too
+Returns:
+        int the result of a to the power of n    
+    '''
+    
+    if n > 0:
+        return a*powers(a, n-1)
+    if n == 0:
+        return 1 #base case since anything raised to power of 1 is 0
+    
+def sum (n):
+    '''
+Description:
+             calculates the sum of all digits in a number
+Args:
+       n (int) the sum of all digits
+Returns:
+         int: n being the sum of all digits 
+    '''
+    if n < 10:
+        return n # base case since single digits
+    else:
+        return sum(n//10) + n%10 #adds the last digit to the digit before it 
+def fibonacci (n):
+    '''
+Description:
+             returns the fibonacci sequence with the number 0
+             the sequence goes 0,1,2,3,5,8,13.....
+Args:
+       int (n) the fibonacci number
+Returns:
+        int: the fibonacci number sequenced 
+    '''
+
+    if n == 0:
+        return 0 #base case
+    if n == 1:
+        return 1 #base case 
+    if n > 1:
+     return fibonacci(n-1) + fibonacci(n-2)
+
+def GCD (x,y):
+    '''
+Description:
+             Calculates the greatest common divisor of two integers 
+Args:
+        x (int) first integer
+        y (int) second integer 
+Returns:
+         int: the GCD of x and y
+    '''
+    if y <= x and x %  y == 0:
+        return y #base case
+    else:
+        return GCD(y, x % y) 
+
+def compound_interest(p,number,t):  #principal/percent,  rate, time for parameters
+    '''
+Description: 
+            calculates compound interest of a number
+Args:
+        p (int) percent where number is set to 
+        number (int) base number
+        t (int) time of interest 
+    '''
+    if t == 0:
+        return p #base case - starting money with no interest
+    if t > 0:
+        return compound_interest  (1+number) * compound_interest(p,number,t-1) #recursive case
+
+    
+def main():
+        
+        print("""
+    1. Factorials
+    2. Summation
+    3. Power of a number
+    4. Sum of a number
+    5. Fibonacci's Sequence 
+    6. Greatest Common Divisor of integers
+    7. Compound Interest
+    8. Product of two numbers    
+            
+    
+
+
+    """)
+        choice = input('Which function do you want ')
+        while True:
+            try:
+                number = int(input('Which number do you want?'))
+                break
+            except ValueError:
+                    print ('invalid input: please try again')
+        if choice == '1':
+            print(factorial(number))  #prints result which is the factorial of number
+        if choice == '2':
+                print(summation(number)) #prints the summation of number
+        if choice == '3':
+            while True:
+                try:
+                        power_number = int(input(f'what number do you want to set the power too' ))
+                        break
+                except ValueError:
+                        print ('invalid, please enter a number')
+            print(powers(number, power_number))
+        if choice == '4':
+            print(sum(number))
+        if choice == '5':
+            print(fibonacci(number))
+        if choice == '6':
+            while True:
+                try:
+                        number_2 = int(input(f'what number do you want ' ))
+                        break
+                except ValueError:
+                        print ('invalid, please enter a number')
+            print(GCD(number_2, number))
+        if choice == '7':
+            try:
+                 t = float(input("What number do you want? "))
+                 p = float(input("What percent do you want the number too? ")) / 100
+            except ValueError:
+             print ('Invalid input')
+
+            print(compound_interest(t, number, p))
+            
+              
+
+main()
+
